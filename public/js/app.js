@@ -2052,6 +2052,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2070,10 +2072,105 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  created: function created() {
+    this.fetchStudent();
+  },
   name: 'Account',
   data: function data() {
     return {
+      fname: '',
+      lname: '',
+      mname: '',
+      email: '',
+      password: '',
+      search: '',
+      headers: [{
+        text: 'Email',
+        align: 'start',
+        sortable: false,
+        value: 'email'
+      }, {
+        text: 'First Name',
+        value: 'fname'
+      }, {
+        text: 'Last Name',
+        value: 'lname'
+      }, {
+        text: 'Middle Name',
+        value: 'mname'
+      }, {
+        text: 'Actions',
+        value: 'actions',
+        sortable: false
+      }],
+      students: [],
+      dialog: false,
       items: [{
         text: 'Dashboard',
         disabled: false,
@@ -2084,6 +2181,40 @@ __webpack_require__.r(__webpack_exports__);
         href: '/account'
       }]
     };
+  },
+  methods: {
+    fetchStudent: function fetchStudent() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('api/students').then(function (res) {
+        _this.students = res.data;
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    },
+    createStudent: function createStudent() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/student', {
+        fname: this.fname,
+        lname: this.lname,
+        mname: this.mname,
+        email: this.email,
+        password: this.password
+      }).then(function (res) {
+        _this2.clearFields();
+
+        _this2.fetchStudent();
+      });
+    },
+    clearFields: function clearFields() {
+      this.fname = '';
+      this.lname = '';
+      this.mname = '';
+      this.email = '';
+      this.password = '';
+      this.dialog = false;
+    }
   }
 });
 
@@ -2253,7 +2384,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       name: '',
-      garde: '',
+      grade: '',
       items: [{
         text: 'Dashboard',
         disabled: false,
@@ -2268,10 +2399,23 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addSubject: function addSubject() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('./api/subject', {
-        name: this.name
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/subject', {
+        name: this.name,
+        grade: this.grade
+      }).then(function (res) {
+        alert('Successfully Save');
+
+        _this.clearFields();
+      })["catch"](function (err) {
+        console.log(err);
       });
-      alert(this.name);
+    },
+    clearFields: function clearFields() {
+      this.name = '';
+      this.grade = '';
+      this.dialog = false;
     }
   }
 });
@@ -40456,7 +40600,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-row",
-    { attrs: { align: "center", justify: "center" } },
+    { staticClass: "mt-5", attrs: { align: "center", justify: "center" } },
     [
       _c(
         "v-col",
@@ -40475,11 +40619,287 @@ var render = function() {
             ])
           }),
           _vm._v(" "),
-          _c("h3", { staticClass: "grey--text" }, [
-            _vm._v("Account Management")
-          ]),
-          _vm._v(" "),
-          _c("v-card", [_c("v-card-text")], 1)
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-card-title",
+                { staticClass: "grey--text" },
+                [
+                  _vm._v("\n              Account Management \n              "),
+                  _c(
+                    "v-row",
+                    { staticClass: "ml-5" },
+                    [
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { persistent: "", "max-width": "600px" },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                var attrs = ref.attrs
+                                return [
+                                  _c(
+                                    "v-btn",
+                                    _vm._g(
+                                      _vm._b(
+                                        {
+                                          attrs: {
+                                            color: "primary",
+                                            small: "",
+                                            depressed: ""
+                                          }
+                                        },
+                                        "v-btn",
+                                        attrs,
+                                        false
+                                      ),
+                                      on
+                                    ),
+                                    [
+                                      _vm._v(
+                                        "\n                    Add Student\n                    "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              }
+                            }
+                          ]),
+                          model: {
+                            value: _vm.dialog,
+                            callback: function($$v) {
+                              _vm.dialog = $$v
+                            },
+                            expression: "dialog"
+                          }
+                        },
+                        [
+                          _vm._v(" "),
+                          _c(
+                            "v-card",
+                            [
+                              _c("v-card-title", [
+                                _c("span", { staticClass: "headline" }, [
+                                  _vm._v("New Student")
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c(
+                                    "v-container",
+                                    [
+                                      _c(
+                                        "v-row",
+                                        [
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12", sm: "4" } },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  clearable: "",
+                                                  label: "First Name *",
+                                                  type: "text"
+                                                },
+                                                model: {
+                                                  value: _vm.fname,
+                                                  callback: function($$v) {
+                                                    _vm.fname = $$v
+                                                  },
+                                                  expression: "fname"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12", sm: "4" } },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  clearable: "",
+                                                  label: "Last Name *",
+                                                  type: "text"
+                                                },
+                                                model: {
+                                                  value: _vm.lname,
+                                                  callback: function($$v) {
+                                                    _vm.lname = $$v
+                                                  },
+                                                  expression: "lname"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12", sm: "4" } },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  clearable: "",
+                                                  label: "Middle Name",
+                                                  type: "text"
+                                                },
+                                                model: {
+                                                  value: _vm.mname,
+                                                  callback: function($$v) {
+                                                    _vm.mname = $$v
+                                                  },
+                                                  expression: "mname"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12", sm: "6" } },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  clearable: "",
+                                                  label: "Email *",
+                                                  type: "Email"
+                                                },
+                                                model: {
+                                                  value: _vm.email,
+                                                  callback: function($$v) {
+                                                    _vm.email = $$v
+                                                  },
+                                                  expression: "email"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12", sm: "6" } },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  clearable: "",
+                                                  label: "Password *",
+                                                  type: "password"
+                                                },
+                                                model: {
+                                                  value: _vm.password,
+                                                  callback: function($$v) {
+                                                    _vm.password = $$v
+                                                  },
+                                                  expression: "password"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("small", [
+                                    _vm._v("*indicates required field")
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-actions",
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "blue darken-1",
+                                        text: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.dialog = false
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Close")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "blue darken-1",
+                                        text: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.createStudent()
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Save")]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c("v-text-field", {
+                    attrs: {
+                      "append-icon": "mdi-magnify",
+                      label: "Search",
+                      "single-line": "",
+                      "hide-details": ""
+                    },
+                    model: {
+                      value: _vm.search,
+                      callback: function($$v) {
+                        _vm.search = $$v
+                      },
+                      expression: "search"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("v-data-table", {
+                attrs: {
+                  headers: _vm.headers,
+                  items: _vm.students,
+                  search: _vm.search
+                }
+              })
+            ],
+            1
+          )
         ],
         1
       )
@@ -40588,7 +41008,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-row",
-            { staticClass: "ml-5 mt-3", attrs: { justify: "left" } },
+            { staticClass: "ml-5 mt-3" },
             [
               _c(
                 "v-dialog",
@@ -99081,9 +99501,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vuetify-loader/lib/runtime/installComponents.js */ "./node_modules/vuetify-loader/lib/runtime/installComponents.js");
 /* harmony import */ var _node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var vuetify_lib_components_VBreadcrumbs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuetify/lib/components/VBreadcrumbs */ "./node_modules/vuetify/lib/components/VBreadcrumbs/index.js");
-/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
-/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
-/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
+/* harmony import */ var vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuetify/lib/components/VBtn */ "./node_modules/vuetify/lib/components/VBtn/index.js");
+/* harmony import */ var vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCard */ "./node_modules/vuetify/lib/components/VCard/index.js");
+/* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
+/* harmony import */ var vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VDataTable */ "./node_modules/vuetify/lib/components/VDataTable/index.js");
+/* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/index.js");
+/* harmony import */ var vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VIcon */ "./node_modules/vuetify/lib/components/VIcon/index.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/index.js");
 
 
 
@@ -99110,7 +99534,15 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBreadcrumbs: vuetify_lib_components_VBreadcrumbs__WEBPACK_IMPORTED_MODULE_4__["VBreadcrumbs"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCard"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardText"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["VCol"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_7__["VIcon"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["VRow"]})
+
+
+
+
+
+
+
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBreadcrumbs: vuetify_lib_components_VBreadcrumbs__WEBPACK_IMPORTED_MODULE_4__["VBreadcrumbs"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCard"],VCardActions: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardActions"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardText"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_6__["VCardTitle"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VDataTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_8__["VDataTable"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_9__["VDialog"],VIcon: vuetify_lib_components_VIcon__WEBPACK_IMPORTED_MODULE_10__["VIcon"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VRow"],VSpacer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VSpacer"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_11__["VTextField"]})
 
 
 /* hot reload */

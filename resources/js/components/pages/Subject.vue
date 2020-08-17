@@ -8,7 +8,7 @@
             </v-breadcrumbs>
             <h2 class="grey--text mt-3 pl-5">Subject Management</h2>
 
-             <v-row justify="left" class="ml-5 mt-3">
+             <v-row class="ml-5 mt-3">
                 <v-dialog v-model="dialog" persistent max-width="600px">
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -116,7 +116,8 @@ export default {
      data: () => ({
 
         name: '',
-        garde: '',
+        grade: '',
+
         items: [
             {
             text: 'Dashboard',
@@ -133,8 +134,21 @@ export default {
     }),
     methods: {
         addSubject() {
-            axios.post('./api/subject',{name:this.name})
-            alert(this.name);
+            axios.post('api/subject',{name:this.name,grade:this.grade})
+            .then(res => {
+                
+                alert('Successfully Save');
+                this.clearFields();
+            })
+            .catch(err => {
+                console.log(err)
+            })
+           
+        },
+        clearFields() {
+            this.name = '';
+            this.grade = '';
+            this.dialog = false;
         }
     }
 }

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Subject;
-use App\Http\Resources\SubjectResource as SubjectResource;
+use App\User;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\Student as StudentResource;
 
-class SubjectController extends Controller
+
+class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +17,8 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $data = Subject::all();
-        return SubjectResource::collection($data);
+        $data = User::all();
+        return StudentResource::collection($data);
     }
 
     /**
@@ -26,7 +28,7 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        //
+       
     }
 
     /**
@@ -38,16 +40,21 @@ class SubjectController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'grade' => 'required',
+            'fname' => 'required',
+            'lname' => 'required',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|min:6|string',
         ]);
         
-        $data = Subject::create([
-           'name' => $request['name'],
-           'grade' => $request['grade'],
+        $data = User::create([
+           'fname' => $request['fname'],
+           'lname' => $request['lname'],
+           'mname' => $request['mname'],
+           'email' => $request['email'],
+           'password' => bcrypt($request['password']),
         ]);
 
-        return new SubjectResource($data);
+        return new StudentResource($data);
     }
 
     /**
